@@ -1,0 +1,42 @@
+How to Chisel
+
+Project Folders
+loot\
+    Build.sbt
+    chisel-dependent.sbt
+    src\
+        main\
+            scala\
+                (source.scala)
+                ...
+
+
+//////////////Build.sbt
+    organization := "edu.berkeley.cs"
+    version := "MyVersion-1.0"
+    name := "MyChiselTemplate"
+    scalaVersion := "2.11.6"
+    scalacOptions ++= Seq("-deprecation", "-feature", "-unchecked", "-language:reflectiveCalls")
+//////////////////////
+
+//////////////chisel-dependent.sbt
+    // Provide a managed dependency on chisel.
+    // The default version is "latest.release".
+    // This may be overridden if -DchiselVersion="" is supplied on the command line.
+
+    val chiselVersion_h = System.getProperty("chiselVersion", "latest.release")
+
+    libraryDependencies ++= ( if (chiselVersion_h != "None" ) ("edu.berkeley.cs" %% "chisel" % chiselVersion_h) :: Nil; else Nil)
+//////////////////////
+
+
+Build scala & Convert to Verilog-hdl
+
+terminal start : ctrl + shift + alt + t (terminal add-on)
+
+>sbt
+>compile
+>run (topmodule class) --backend v --targetDir ./verilog
+
+ex) >run Hello.Hello --backend v --targetDir ./verilog
+(select main module)
